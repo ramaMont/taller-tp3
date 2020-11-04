@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+#Extras
+*.sh
+*.py
+Makefile
+client
+server
+.vscode
