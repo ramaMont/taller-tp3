@@ -1,11 +1,12 @@
 #ifndef __PETITORIO__
 #define __PETITORIO__
 
+#include "Servidor.h"
 #include <string>
 
 class Petitorio{
 public:
-    virtual std::string process() = 0;
+    virtual std::string process(Servidor servidor) = 0;
     virtual ~Petitorio();
 };
 
@@ -14,7 +15,7 @@ private:
     std::string resource;
 public:
     explicit Get(std::string resource);
-    virtual std::string process() override;
+    virtual std::string process(Servidor servidor) override;
     ~Get();
 };
 
@@ -24,14 +25,14 @@ private:
     std::string body;
 public:
     explicit Post(std::string resource, std::string body);
-    virtual std::string process() override;
+    virtual std::string process(Servidor servidor) override;
     ~Post();
 };
 
 class NotAllowed final : public Petitorio{
 public:
     NotAllowed();
-    virtual std::string process() override;
+    virtual std::string process(Servidor servidor) override;
     ~NotAllowed();
 };
 

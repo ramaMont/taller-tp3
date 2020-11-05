@@ -1,4 +1,5 @@
 #include "ReqProcessor.h"
+
 #include <iostream>
 #include <sstream>
 
@@ -6,10 +7,10 @@
 ReqProcessor::ReqProcessor(std::string request):request(request){
 }
 
-void ReqProcessor::process(){
+void ReqProcessor::process(Servidor servidor){
     Petitorio *petitorio = parseReq();
-    std::string result = petitorio->process();
-    std::cout << result << std::endl;
+    std::string result = petitorio->process(servidor);
+    std::cout << result;
     delete petitorio;
 }
 

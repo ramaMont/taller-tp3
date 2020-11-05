@@ -3,6 +3,7 @@
 
 #include <string>
 #include "Petitorio.h"
+#include "Servidor.h"
 
 class ReqProcessor{
 private:
@@ -10,7 +11,7 @@ private:
     Petitorio* parseReq();
 public:
     explicit ReqProcessor(std::string request);
-    void process();
+    void process(Servidor servidor);
     ~ReqProcessor();
 };
 
