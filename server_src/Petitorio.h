@@ -4,30 +4,31 @@
 #include <string>
 
 class Petitorio{
+public:
     virtual std::string process() = 0;
+    virtual ~Petitorio();
 };
 
-class Get : public Petitorio{
+class Get final : public Petitorio{
 private:
-    std::string recurso;
+    std::string resource;
 public:
-    explicit Get(std::string recurso);
+    explicit Get(std::string resource);
     virtual std::string process() override;
     ~Get();
 };
 
-class Post : public Petitorio{
+class Post final : public Petitorio{
 private:
-    std::string recurso;
+    std::string resource;
     std::string body;
-    int body_lenght;
 public:
-    explicit Post(std::string recurso, std::string body, int body_lenght);
+    explicit Post(std::string resource, std::string body);
     virtual std::string process() override;
     ~Post();
 };
 
-class NotAllowed : public Petitorio{
+class NotAllowed final : public Petitorio{
 public:
     NotAllowed();
     virtual std::string process() override;
