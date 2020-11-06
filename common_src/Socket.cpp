@@ -29,39 +29,39 @@ void hostOClientConf(struct addrinfo **pr, char *host, char *port,
     }
 }
 
-void ServerSocket::hostListening(){
+void Socket::hostListening(){
     int s = listen(socketFd, MAX_CLIENTS_HOLD);
     if (s == -1) {
         std::cout << "Error: " << strerror(errno) << "\n";
-        close(socketFd);
+        ::close(socketFd);
         throw -1;
     }
 }
 
-void ServerSocket::reUseHost(struct addrinfo *pr){
+void Socket::reUseHost(struct addrinfo *pr){
     int val = 1;
     int sErr;
     sErr = setsockopt(socketFd, SOL_SOCKET, SO_REUSEADDR,
         &val, sizeof(val));
     if (sErr == -1) {
         std::cout << "Error: " << strerror(errno) << "\n";
-        close(socketFd);
+        ::close(socketFd);
         freeaddrinfo(pr);
         throw -1;
     }
 }
 
-void ServerSocket::bindHost(struct addrinfo *pr){
+void Socket::bindHost(struct addrinfo *pr){
     int sErr = bind(socketFd, pr->ai_addr, pr->ai_addrlen);
     if (sErr == -1) {
         std::cout << "Error: " << strerror(errno) << "\n";
-        close(socketFd);
+        ::close(socketFd);
         freeaddrinfo(pr);
         throw -1;
     }
 }
 
-void ServerSocket::hostNBind(struct addrinfo *pr){
+void Socket::hostNBind(struct addrinfo *pr){
     socketFd = socket(pr->ai_family, pr->ai_socktype, pr->ai_protocol);
     if (socketFd == -1)
         throw -1;
@@ -70,13 +70,21 @@ void ServerSocket::hostNBind(struct addrinfo *pr){
     freeaddrinfo(pr);
 }
 
-Socket ServerSocket::acceptClient(){
+Socket Socket::acceptClient(){
     int peersktFd = accept(socketFd, NULL, NULL);
     if (peersktFd == -1) {
-        printf("Error: %s\n", strerror(errno));
         throw -1;
     }
     return Socket(peersktFd);
+}
+
+Socket::Socket(std::string port):Socket(){
+    struct addrinfo *pr=0;
+    char localHost[PORT_LENGTH] = "localhost";
+    char portChar[PORT_LENGTH];
+    strncpy(portChar, port.c_str(), port.length()+1);
+    hostOClientConf(&pr, localHost, portChar, SERVER);
+    hostNBind(pr);
 }
 
 Socket::Socket(){
@@ -123,7 +131,7 @@ int Socket::recive(char *buff, size_t size){
 
 Socket &Socket::operator=(Socket&& other){
     if (this == &other){
-        return*this;        // other is myself!8
+        return*this;        // other is myself!
     }
     this->socketFd = other.socketFd;
     other.socketFd = -1;
@@ -135,26 +143,20 @@ Socket::Socket(Socket&& other) {
     other.socketFd = -1;
 }
 
+void Socket::shutdown(){
+    if (socketFd != -1)
+        ::shutdown(socketFd, SHUT_RDWR);  
+}
+
+void Socket::close(){
+    if (socketFd != -1)
+        ::close(socketFd);
+    socketFd = -1;
+}
+
 Socket::~Socket(){
     if (socketFd != -1){
-        shutdown(socketFd, SHUT_RDWR);
-        close(socketFd);
+        ::shutdown(socketFd, SHUT_RDWR);
+        ::close(socketFd);
     }
-}
-
-ServerSocket::ServerSocket(std::string port):Socket(){
-    struct addrinfo *pr=0;
-    char localHost[PORT_LENGTH] = "localhost";
-    char portChar[PORT_LENGTH];
-    strncpy(portChar, port.c_str(), port.length()+1);
-    hostOClientConf(&pr, localHost, portChar, SERVER);
-    hostNBind(pr);
-}
-
-Socket ServerSocket::ListenNAccept(){
-    hostListening();
-    return acceptClient();
-}
-
-ServerSocket::~ServerSocket(){
 }

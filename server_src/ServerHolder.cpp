@@ -1,4 +1,5 @@
 #include "ServerHolder.h"
+#include "ThAceptador.h"
 #include <string>
 #include <iostream>
 
@@ -11,16 +12,18 @@ ServerHolder::ServerHolder(int argc, char** argv):
 void ServerHolder::run(){
     std::string c;
 // aca lanzo el thread aceptador.
-    while (c != "q"){
+    ThAceptador aceptador(std::move(svSock), servidor);
+    aceptador.start();
+    do{
         std::cin >> c;
-    }
+    } while (c != "q");
+    aceptador.stop();
 // aca le hago join y lo mato.
-    char reqst[500]="";
-    Socket peer = svSock.ListenNAccept();
-    peer.recive(reqst, 500);
-    std::string rqstStr(reqst);
-    ReqProcessor req(rqstStr);
-    req.process(servidor);
+    aceptador.join();
+}
+
+void ServerHolder::operator()(){
+    run();
 }
 
 ServerHolder::~ServerHolder(){
