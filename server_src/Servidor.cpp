@@ -2,13 +2,16 @@
 #include <fstream>
 #include <utility>
 #include <string>
+#include <iostream>
 
 Servidor::Servidor(std::string root){
     std::ifstream myfile(root);
     std::string contenido;
     std::string linea;
-    if (!myfile.is_open()) 
-        throw -1;    
+    if (!myfile.is_open()){
+        std::cout << "Nombre de archivo invalido\n";
+        throw -1;
+    }
     while (getline(myfile, linea))
         contenido.append(linea + '\n');
     recursos.insert(std::pair<std::string, std::string>("/",contenido));

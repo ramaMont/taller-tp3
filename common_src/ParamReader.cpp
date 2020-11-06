@@ -1,9 +1,13 @@
 #include "ParamReader.h"
 #include <string>
 #include <vector>
+#include <iostream>
 
 ParamReader::ParamReader(int argc, char** argv){
-    if (argc != 3) throw -1;
+    if (argc != 3){ 
+        std::cout << "Cantidad de argumentos invalida\n";
+        throw -1;
+    }
     std::vector<std::string> arguments(argv + 1, argv + argc);
     argumentos.swap(arguments);
 }
