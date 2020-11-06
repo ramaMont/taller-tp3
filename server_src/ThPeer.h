@@ -1,22 +1,19 @@
-#ifndef __TH_ACEPTADOR__
-#define __TH_ACEPTADOR__
+#ifndef __TH_PEER__
+#define __TH_PEER__
 
 #include "../common_src/Thread.h"
 #include "../common_src/Socket.h"
 #include "Servidor.h"
 #include <atomic>
-#include <vector>
 
-class ThAceptador final : public Thread{
+class ThPeer final : public Thread{
 private:
-    std::vector<Thread*> peers;
-    Socket svSock;
+    Socket peerSock;
     Servidor &servidor;
     std::atomic<bool> keep_talking;
     std::atomic<bool> is_running;
-    void cleanForsakens();
 public:
-    explicit ThAceptador(Socket &&svSockParam, Servidor &servidor);
+    explicit ThPeer(Socket &&peerSock, Servidor &servidor);
     virtual void run() override;
     virtual void stop() override;
     virtual bool isDone() override;

@@ -4,6 +4,7 @@
 #include <sstream>
 
 ReqProcessor::ReqProcessor(std::string request):request(request){
+    if (request.length()==0) throw -1;
 }
 
 void ReqProcessor::process(Servidor &servidor){

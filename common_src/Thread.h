@@ -15,6 +15,8 @@ public:
     Thread& operator=(const Thread&) = delete;
     Thread(Thread&& other);
     Thread& operator=(Thread&& other);
+    virtual void stop() = 0;
+    virtual bool isDone() = 0;
     virtual ~Thread();
 };
 
