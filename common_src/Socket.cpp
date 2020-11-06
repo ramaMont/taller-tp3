@@ -146,7 +146,7 @@ ServerSocket::ServerSocket(std::string port):Socket(){
     struct addrinfo *pr=0;
     char localHost[PORT_LENGTH] = "localhost";
     char portChar[PORT_LENGTH];
-    strncpy(portChar, port.c_str(), port.length());
+    strncpy(portChar, port.c_str(), port.length()+1);
     hostOClientConf(&pr, localHost, portChar, SERVER);
     hostNBind(pr);
 }
