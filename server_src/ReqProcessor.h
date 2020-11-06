@@ -11,7 +11,7 @@ private:
     Petitorio* parseReq();
 public:
     explicit ReqProcessor(std::string request);
-    void process(Servidor servidor);
+    void process(Servidor &servidor);
     ~ReqProcessor();
 };
 

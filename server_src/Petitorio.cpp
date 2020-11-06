@@ -11,14 +11,14 @@ Post::Post(std::string resource, std::string body):
 NotAllowed::NotAllowed(){
 }
 
-std::string Get::process(Servidor servidor){
+std::string Get::process(Servidor &servidor){
     return servidor.getRecurso(resource);
 }
 
-std::string Post::process(Servidor servidor){
+std::string Post::process(Servidor &servidor){
     return servidor.postRecurso(resource, body);;
 }
-std::string NotAllowed::process(Servidor servidor){
+std::string NotAllowed::process(Servidor &servidor){
     return "HTTP 403 FORBIDDEN\n\n";
 }
 

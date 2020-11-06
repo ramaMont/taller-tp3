@@ -17,7 +17,7 @@ int main(int argc, char** argv){
         Servidor servidor(paramReaderServer.getFile());
         ServerSocket svSock("7777");
         Socket peer = svSock.ListenNAccept();
-        peer.recive(reqst, 50);
+        peer.recive(reqst, 500);
         std::string rqstStr(reqst);
         ReqProcessor req(rqstStr);
         req.process(servidor);

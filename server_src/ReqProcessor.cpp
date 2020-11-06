@@ -7,7 +7,7 @@
 ReqProcessor::ReqProcessor(std::string request):request(request){
 }
 
-void ReqProcessor::process(Servidor servidor){
+void ReqProcessor::process(Servidor &servidor){
     Petitorio *petitorio = parseReq();
     std::string result = petitorio->process(servidor);
     std::cout << result;
