@@ -2,6 +2,7 @@
 #include "../common_src/ParamReader.h"
 #include "ReqProcessor.h"
 #include "Servidor.h"
+#include "../common_src/Socket.h"
 #include <string>
 
 std::string request = 
@@ -11,9 +12,14 @@ std::string request =
 
 int main(int argc, char** argv){
     try{
+        char reqst[500]="";
         ParamReaderServer paramReaderServer(argc, argv);
         Servidor servidor(paramReaderServer.getFile());
-        ReqProcessor req(request);
+        ServerSocket svSock("7777");
+        Socket peer = svSock.ListenNAccept();
+        peer.recive(reqst, 50);
+        std::string rqstStr(reqst);
+        ReqProcessor req(rqstStr);
         req.process(servidor);
     } catch (...){
         std::cout << "Cantidad de argumentos invalida\n";
