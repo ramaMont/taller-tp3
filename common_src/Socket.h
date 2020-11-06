@@ -8,7 +8,7 @@ protected:
     int socketFd;
 public:
     Socket();
-    Socket(int socketFd);
+    explicit Socket(int socketFd);
     int sendStr(const char* msg, size_t size);
     int recive(char *buff, size_t size);
     Socket(const Socket&) = delete;

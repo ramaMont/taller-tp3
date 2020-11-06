@@ -1,4 +1,5 @@
 #include "Petitorio.h"
+#include <string>
 
 Get::Get(std::string resource): resource(resource){
 }

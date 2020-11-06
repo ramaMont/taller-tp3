@@ -1,5 +1,7 @@
 #include "Servidor.h"
 #include <fstream>
+#include <utility>
+#include <string>
 
 Servidor::Servidor(std::string root){
     std::ifstream myfile(root);
@@ -14,9 +16,9 @@ Servidor::Servidor(std::string root){
 std::string Servidor::getRecurso(std::string recurso){
     try {
         std::string respuesta = recursos.at(recurso);
-        respuesta = "​HTTP 200 OK\nContent-Type: text/html\n\n" + respuesta;
+        respuesta ="​HTTP 200 OK\nContent-Type: text/html\n\n" + respuesta;
         return respuesta;
-    } catch (...){
+    } catch(...){
         return "HTTP 404 NOT FOUND\n\n";
     }
 }

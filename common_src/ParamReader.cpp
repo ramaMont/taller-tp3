@@ -1,4 +1,6 @@
 #include "ParamReader.h"
+#include <string>
+#include <vector>
 
 ParamReader::ParamReader(int argc, char** argv){
     if (argc != 3) throw -1;
@@ -6,10 +8,12 @@ ParamReader::ParamReader(int argc, char** argv){
     argumentos.swap(arguments);
 }
 
-ParamReaderServer::ParamReaderServer(int argc, char** argv):ParamReader(argc, argv){
+ParamReaderServer::ParamReaderServer(int argc, char** argv):
+        ParamReader(argc, argv){
 }
 
-ParamReaderClient::ParamReaderClient(int argc, char** argv):ParamReader(argc, argv){
+ParamReaderClient::ParamReaderClient(int argc, char** argv):
+        ParamReader(argc, argv){
 }
 
 std::string ParamReaderServer::getPort(){
@@ -36,4 +40,3 @@ ParamReaderServer::~ParamReaderServer(){
 
 ParamReaderClient::~ParamReaderClient(){
 }
-

@@ -1,8 +1,7 @@
 #include "ReqProcessor.h"
-
+#include <string>
 #include <iostream>
 #include <sstream>
-
 
 ReqProcessor::ReqProcessor(std::string request):request(request){
 }
@@ -14,7 +13,8 @@ void ReqProcessor::process(Servidor &servidor){
     delete petitorio;
 }
 
-void parseMethod(std::string &method, std::string &resource, const std::string &line, bool &done){
+void parseMethod(std::string &method, std::string &resource,
+        const std::string &line, bool &done){
     std::stringstream s_stream(line);
     std::string word;
     int pos = 0;

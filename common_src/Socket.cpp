@@ -1,5 +1,4 @@
 #include "Socket.h"
-//#define _POSIX_C_SOURCE 200112L
 #include <iostream>
 #include <string>
 #include <sys/types.h>
@@ -147,7 +146,7 @@ ServerSocket::ServerSocket(std::string port):Socket(){
     struct addrinfo *pr=0;
     char localHost[PORT_LENGTH] = "localhost";
     char portChar[PORT_LENGTH];
-    strcpy(portChar, port.c_str());
+    strncpy(portChar, port.c_str(), port.length());
     hostOClientConf(&pr, localHost, portChar, SERVER);
     hostNBind(pr);
 }
@@ -158,6 +157,4 @@ Socket ServerSocket::ListenNAccept(){
 }
 
 ServerSocket::~ServerSocket(){
-
 }
-
