@@ -3,6 +3,7 @@
 #include <utility>
 #include <string>
 #include <iostream>
+#include <mutex>
 
 Servidor::Servidor(std::string root){
     std::ifstream myfile(root);
@@ -17,6 +18,7 @@ Servidor::Servidor(std::string root){
     recursos.insert(std::pair<std::string, std::string>("/",contenido));
 }
 std::string Servidor::getRecurso(std::string recurso){
+    std::lock_guard<std::mutex> lck (mtx);
     try {
         std::string respuesta = recursos.at(recurso);
         respuesta ="​HTTP 200 OK\nContent-Type: text/html\n\n" + respuesta;
@@ -26,6 +28,7 @@ std::string Servidor::getRecurso(std::string recurso){
     }
 }
 std::string Servidor::postRecurso(std::string recurso, std::string body){
+    std::lock_guard<std::mutex> lck (mtx);
     if (recurso != "/")
         recursos.insert(std::pair<std::string, std::string>(recurso, body));
     else
