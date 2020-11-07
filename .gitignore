@@ -40,3 +40,4 @@ server
 .vscode
 *.html
 filter_options
+__client_1_stdin__

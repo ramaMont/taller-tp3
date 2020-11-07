@@ -30,6 +30,24 @@ void hostOClientConf(struct addrinfo **pr, char *host, char *port,
     }
 }
 
+void Socket::iteroAddrinfo(struct addrinfo *result, struct addrinfo *rp){
+    rp=result;
+    for (; rp != NULL; rp = rp->ai_next) {
+        socketFd = socket(rp->ai_family, rp->ai_socktype,
+            rp->ai_protocol);
+        if (socketFd == -1)
+            continue;
+        if (::connect(socketFd, rp->ai_addr, rp->ai_addrlen) != -1)
+            break;
+        ::close(socketFd);
+    }
+    if (rp == NULL) {
+        fprintf(stderr, "Could not connect\n");
+        throw -1;
+    }
+    freeaddrinfo(result);
+}
+
 void Socket::hostListening(){
     int s = listen(socketFd, MAX_CLIENTS_HOLD);
     if (s == -1) {
@@ -79,11 +97,19 @@ Socket Socket::acceptClient(){
     return Socket(peersktFd);
 }
 
+Socket::Socket(std::string host, std::string port){
+    struct addrinfo *pr=0;
+    struct addrinfo *rp=0;
+    char* localHost = const_cast<char*>(host.c_str());
+    char* portChar = const_cast<char*>(port.c_str());
+    hostOClientConf(&pr, localHost, portChar, CLIENT);
+    iteroAddrinfo(pr, rp);
+}
+
 Socket::Socket(std::string port):Socket(){
     struct addrinfo *pr=0;
     char localHost[] = "localhost";
-    char portChar[PORT_LENGTH];
-    strncpy(portChar, port.c_str(), port.length()+1);
+    char* portChar = const_cast<char*>(port.c_str());
     hostOClientConf(&pr, localHost, portChar, SERVER);
     hostNBind(pr);
 }
@@ -98,7 +124,6 @@ Socket::Socket(int socketFd):socketFd(socketFd){
 int Socket::sendStr(std::string msg, size_t size){
     size_t bytes_enviados = 0;
     char* msg_to_send = const_cast<char*>(msg.c_str());
-    std::cout << msg_to_send << std::endl;
     while (bytes_enviados < size) {
         int sent;
         sent = send(socketFd, msg_to_send + bytes_enviados,

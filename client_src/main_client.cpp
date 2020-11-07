@@ -1,10 +1,9 @@
 #include <iostream>
-#include "../common_src/ParamReader.h"
+#include "ClientHolder.h"
 int main(int argc, char** argv){
     try{
-        ParamReaderClient paramReaderClient(argc, argv);
-    } catch(...){
-        std::cout << "Cantidad de argumentos invalida\n";
-    }
+        ClientHolder clientHolder(argc, argv);
+        clientHolder();
+    } catch(...){}
     return 0;
 }

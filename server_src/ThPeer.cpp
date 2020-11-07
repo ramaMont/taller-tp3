@@ -18,7 +18,7 @@ void ThPeer::run(){
         peerSock.recive(request, 500);
         ReqProcessor req(request);
         response = req.process(servidor);
-        peerSock.sendStr(response, response.length()+1);
+        peerSock.sendStr(response, response.length());
     } catch(...){}
     is_running = false;
 }

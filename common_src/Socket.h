@@ -9,9 +9,11 @@ protected:
     void hostNBind(struct addrinfo *pr);
     void reUseHost(struct addrinfo *pr);
     void bindHost(struct addrinfo *pr);
+    void iteroAddrinfo(struct addrinfo *result, struct addrinfo *rp);
 public:
     Socket();
     explicit Socket(std::string port);
+    explicit Socket(std::string host, std::string port);
     explicit Socket(int socketFd);
     void hostListening();
     Socket acceptClient();
