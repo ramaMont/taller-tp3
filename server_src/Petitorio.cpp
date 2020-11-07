@@ -20,7 +20,7 @@ std::string Post::process(Servidor &servidor){
     return servidor.postRecurso(resource, body);;
 }
 std::string NotAllowed::process(Servidor &servidor){
-    return "HTTP 403 FORBIDDEN\n\n";
+    return "HTTP 405 METHOD NOT ALLOWED\n\n";
 }
 
 Get::~Get(){

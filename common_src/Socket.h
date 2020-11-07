@@ -16,8 +16,8 @@ public:
     void hostListening();
     Socket acceptClient();
     void connect();
-    int sendStr(const char* msg, size_t size);
-    int recive(char *buff, size_t size);
+    int sendStr(std::string msg, size_t size);
+    int recive(std::string &reciv, size_t size);
     void shutdown();
     void close();
     Socket(const Socket&) = delete;

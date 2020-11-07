@@ -7,11 +7,11 @@ ReqProcessor::ReqProcessor(std::string request):request(request){
     if (request.length()==0) throw -1;
 }
 
-void ReqProcessor::process(Servidor &servidor){
+std::string ReqProcessor::process(Servidor &servidor){
     Petitorio *petitorio = parseReq();
     std::string result = petitorio->process(servidor);
-    std::cout << result;
     delete petitorio;
+    return result;
 }
 
 void parseMethod(std::string &method, std::string &resource,
@@ -19,6 +19,7 @@ void parseMethod(std::string &method, std::string &resource,
     std::stringstream s_stream(line);
     std::string word;
     int pos = 0;
+    std::cout << line << std::endl;
     while (s_stream >> word){
         if (pos == 0)
             method.swap(word);

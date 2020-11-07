@@ -1,21 +1,24 @@
 #include "ThPeer.h"
 #include "ReqProcessor.h"
 
+#include <string>
+#include <iostream>
+
 ThPeer::ThPeer(Socket &&peerSock, Servidor &servidor):
     peerSock(std::move(peerSock)),
     servidor(servidor),
     keep_talking(true),
     is_running(true){
-
 }
 
 void ThPeer::run(){
-    char reqst[500]="";
     try{
-        peerSock.recive(reqst, 500);
-        std::string rqstStr(reqst);
-        ReqProcessor req(rqstStr);
-        req.process(servidor);
+        std::string request;
+        std::string response;
+        peerSock.recive(request, 500);
+        ReqProcessor req(request);
+        response = req.process(servidor);
+        peerSock.sendStr(response, response.length()+1);
     } catch(...){}
     is_running = false;
 }

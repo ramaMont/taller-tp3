@@ -9,7 +9,8 @@
 #include <stdio.h>
 
 #define MAX_CLIENTS_HOLD 10
-#define PORT_LENGTH 40
+#define PORT_LENGTH 10
+#define MSG_LENGTH 500
 
 enum TipoUsuario { CLIENT, SERVER };
 
@@ -80,7 +81,7 @@ Socket Socket::acceptClient(){
 
 Socket::Socket(std::string port):Socket(){
     struct addrinfo *pr=0;
-    char localHost[PORT_LENGTH] = "localhost";
+    char localHost[] = "localhost";
     char portChar[PORT_LENGTH];
     strncpy(portChar, port.c_str(), port.length()+1);
     hostOClientConf(&pr, localHost, portChar, SERVER);
@@ -94,11 +95,13 @@ Socket::Socket(){
 Socket::Socket(int socketFd):socketFd(socketFd){
 }
 
-int Socket::sendStr(const char* msg, size_t size){
+int Socket::sendStr(std::string msg, size_t size){
     size_t bytes_enviados = 0;
+    char* msg_to_send = const_cast<char*>(msg.c_str());
+    std::cout << msg_to_send << std::endl;
     while (bytes_enviados < size) {
         int sent;
-        sent = send(socketFd, msg + bytes_enviados,
+        sent = send(socketFd, msg_to_send + bytes_enviados,
             size - bytes_enviados, MSG_NOSIGNAL);
         if (sent == -1) {
             printf("Error: %s\n", strerror(errno));
@@ -113,19 +116,22 @@ int Socket::sendStr(const char* msg, size_t size){
     return 0;
 }
 
-int Socket::recive(char *buff, size_t size){
+int Socket::recive(std::string &reciv, size_t size){
+    char buff[MSG_LENGTH]; 
     size_t received = 0;
     while (received < size) {
         int rec = 0;
         rec = recv(socketFd, &buff[received], size-received, 0);
         if (rec == 0) {             // socket cerrado :)
             buff[received + 1] = EOF;
+            reciv = buff;
             return -1;
         } else if (rec == -1) {     // error
             return -2;
         }
         received += rec;
     }
+    reciv = buff;
     return received;
 }
 
