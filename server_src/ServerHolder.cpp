@@ -2,6 +2,8 @@
 #include "ThAceptador.h"
 #include <string>
 #include <iostream>
+#include <chrono>
+#include <thread>
 
 ServerHolder::ServerHolder(int argc, char** argv):
     paramReaderServer(argc,argv),
@@ -11,14 +13,14 @@ ServerHolder::ServerHolder(int argc, char** argv):
 
 void ServerHolder::run(){
     std::string c;
-// aca lanzo el thread aceptador.
     ThAceptador aceptador(std::move(svSock), servidor);
     aceptador.start();
     do{
         std::cin >> c;
     } while (c != "q");
+    //Tiempo para que los threads se creen y aloquen memoria
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
     aceptador.stop();
-// aca le hago join y lo mato.
     aceptador.join();
 }
 

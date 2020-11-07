@@ -27,7 +27,7 @@ void ThAceptador::run(){
 void ThAceptador::cleanForsakens(){
     std::vector<Thread*> activeThreads;
     for (size_t i = 0; i < peers.size(); i++){
-        if (peers[i]->isDone()){
+        if (!peers[i]->isDone()){
             peers[i]->join();
             delete peers[i];
         } else {
