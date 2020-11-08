@@ -2,6 +2,7 @@
 #include "ReqProcessor.h"
 #include "ThPeer.h"
 #include <vector>
+#include <utility>
 
 ThAceptador::ThAceptador(Socket &&svSockParam, Servidor &servidor):
     svSock(std::move(svSockParam)),

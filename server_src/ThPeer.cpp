@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+#include <utility>
 
 ThPeer::ThPeer(Socket &&peerSock, Servidor &servidor):
     peerSock(std::move(peerSock)),
