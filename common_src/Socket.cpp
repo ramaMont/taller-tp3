@@ -123,6 +123,8 @@ Socket::Socket(int socketFd):socketFd(socketFd){
 
 int Socket::sendStr(std::string msg, size_t size){
     size_t bytes_enviados = 0;
+    ++size;
+    msg.push_back(EOF);
     char* msg_to_send = const_cast<char*>(msg.c_str());
     while (bytes_enviados < size) {
         int sent;
@@ -148,13 +150,17 @@ int Socket::recive(std::string &reciv, size_t size){
         int rec = 0;
         rec = recv(socketFd, &buff[received], size-received, 0);
         if (rec == 0) {             // socket cerrado :)
-            buff[received + 1] = EOF;
             reciv = buff;
             return -1;
         } else if (rec == -1) {     // error
             return -2;
         }
         received += rec;
+        if (buff[received-1] == EOF){
+            buff[received-1] = '\0';
+            reciv = buff;
+            return received;
+        }
     }
     reciv = buff;
     return received;
