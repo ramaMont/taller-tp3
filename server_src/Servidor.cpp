@@ -44,7 +44,7 @@ std::string Servidor::postRecurso(std::string recurso, std::string body){
 std::string Servidor::unknownReq(const std::string& method_name){
     std::lock_guard<std::mutex> lck(mtx);
     std::string respuesta;
-    respuesta = "HTTP 405 METHOD NOT ALLOWED\n\n";
+    respuesta = "HTTP/1.1 405 METHOD NOT ALLOWED\n\n";
     respuesta = respuesta + method_name + " es un comando desconocido\n";
     return respuesta;
 }
