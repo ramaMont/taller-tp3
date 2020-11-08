@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <string>
 
 #define MAX_RECIVED 1000
 
@@ -20,7 +21,7 @@ ClientHolder::ClientHolder(int argc, char** argv):
     paramReaderClient(argc, argv),
     cliSkt(paramReaderClient.getHost(), paramReaderClient.getPort()){
 }
-void ClientHolder::operator ()(){
+void ClientHolder::operator()(){
     run();
 }
 ClientHolder::~ClientHolder(){

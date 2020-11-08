@@ -11,7 +11,7 @@ private:
     void run();
 public:
     explicit ClientHolder(int argc, char** argv);
-    void operator ()();
+    void operator()();
     ~ClientHolder();
 };
 
