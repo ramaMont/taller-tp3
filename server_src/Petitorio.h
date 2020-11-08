@@ -14,7 +14,7 @@ class Get final : public Petitorio{
 private:
     std::string resource;
 public:
-    explicit Get(std::string resource);
+    explicit Get(const std::string resource);
     virtual std::string process(Servidor &servidor) override;
     ~Get();
 };
@@ -24,7 +24,7 @@ private:
     std::string resource;
     std::string body;
 public:
-    explicit Post(std::string resource, std::string body);
+    explicit Post(const std::string resource, const std::string body);
     virtual std::string process(Servidor &servidor) override;
     ~Post();
 };

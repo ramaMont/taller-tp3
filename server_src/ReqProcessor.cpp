@@ -31,8 +31,8 @@ void parseMethod(std::string &method, std::string &resource,
         done = true;
 }
 
-Petitorio* reqCreator(std::string& method_name,
-        std::string& resource, std::string& body){
+Petitorio* reqCreator(const std::string& method_name,
+        const std::string& resource, const std::string& body){
     if (method_name == "GET")
         return new Get(resource);
     if (method_name == "POST")
