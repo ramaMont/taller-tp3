@@ -1,10 +1,10 @@
 #include "Petitorio.h"
 #include <string>
 
-Get::Get(const std::string resource): resource(resource){
+Get::Get(const std::string& resource): resource(resource){
 }
 
-Post::Post(const std::string resource, const std::string body):
+Post::Post(const std::string& resource, const std::string& body):
     resource(resource),
     body(body){
 }
