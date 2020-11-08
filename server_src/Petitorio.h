@@ -30,8 +30,10 @@ public:
 };
 
 class NotAllowed final : public Petitorio{
+private:
+    std::string method_name;
 public:
-    NotAllowed();
+    explicit NotAllowed(const std::string& method_name);
     virtual std::string process(Servidor &servidor) override;
     ~NotAllowed();
 };

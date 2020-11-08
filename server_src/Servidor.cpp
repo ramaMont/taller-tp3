@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <mutex>
+#include <sstream>
 
 Servidor::Servidor(std::string root){
     std::ifstream myfile(root);
@@ -22,12 +23,12 @@ std::string Servidor::getRecurso(std::string recurso){
     try {
         std::string respuesta = recursos.at(recurso);
         if (recurso == "/")
-            respuesta = "​HTTP 200 OK\nContent-Type: text/html\n\n" + respuesta;
+            respuesta = "HTTP/1.1 200 OK\nContent-Type: text/html\n\n" + respuesta;
         else
-            respuesta = "HTTP 200 OK\n\n" + respuesta; 
+            respuesta = "HTTP/1.1 200 OK\n\n" + respuesta;
         return respuesta;
     } catch(...){
-        return "HTTP 404 NOT FOUND\n\n";
+        return "HTTP/1.1 404 NOT FOUND\n\n";
     }
 }
 std::string Servidor::postRecurso(std::string recurso, std::string body){
@@ -35,8 +36,16 @@ std::string Servidor::postRecurso(std::string recurso, std::string body){
     if (recurso != "/")
         recursos.insert(std::pair<std::string, std::string>(recurso, body));
     else
-        return "​HTTP 403 FORBIDDEN\n\n";
+        return "HTTP/1.1 403 FORBIDDEN\n\n";
     return "HTTP/1.1 200 OK\n\n" + body;
+}
+
+std::string Servidor::unknownReq(std::string method_name){
+    std::lock_guard<std::mutex> lck(mtx);
+    std::string respuesta;
+    respuesta = "HTTP 405 METHOD NOT ALLOWED\n\n";
+    respuesta = respuesta + method_name + " es un comando desconocido\n";
+    return respuesta;
 }
 
 Servidor::~Servidor(){

@@ -9,7 +9,7 @@ Post::Post(const std::string& resource, const std::string& body):
     body(body){
 }
 
-NotAllowed::NotAllowed(){
+NotAllowed::NotAllowed(const std::string& method_name):method_name(method_name){
 }
 
 std::string Get::process(Servidor &servidor){
@@ -20,7 +20,7 @@ std::string Post::process(Servidor &servidor){
     return servidor.postRecurso(resource, body);;
 }
 std::string NotAllowed::process(Servidor &servidor){
-    return "HTTP 405 METHOD NOT ALLOWED\n\n";
+    return servidor.unknownReq(method_name);
 }
 
 Get::~Get(){

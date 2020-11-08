@@ -37,7 +37,7 @@ Petitorio* reqCreator(const std::string& method_name,
         return new Get(resource);
     if (method_name == "POST")
         return new Post(resource, body);
-    return new NotAllowed();
+    return new NotAllowed(method_name);
 }
 
 Petitorio* ReqProcessor::parseReq(){
