@@ -43,6 +43,7 @@ void Socket::iteroAddrinfo(struct addrinfo *result, struct addrinfo *rp){
     }
     if (rp == NULL) {
         fprintf(stderr, "Could not connect\n");
+        freeaddrinfo(result);
         throw -1;
     }
     freeaddrinfo(result);
