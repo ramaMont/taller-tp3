@@ -23,7 +23,8 @@ std::string Servidor::getRecurso(std::string recurso){
     try {
         std::string respuesta = recursos.at(recurso);
         if (recurso == "/")
-            respuesta = "HTTP/1.1 200 OK\nContent-Type: text/html\n\n" + respuesta;
+            respuesta = "HTTP/1.1 200 OK\nContent-Type: text/html\n\n" + 
+                respuesta;
         else
             respuesta = "HTTP/1.1 200 OK\n\n" + respuesta;
         return respuesta;
@@ -40,7 +41,7 @@ std::string Servidor::postRecurso(std::string recurso, std::string body){
     return "HTTP/1.1 200 OK\n\n" + body;
 }
 
-std::string Servidor::unknownReq(std::string method_name){
+std::string Servidor::unknownReq(const std::string& method_name){
     std::lock_guard<std::mutex> lck(mtx);
     std::string respuesta;
     respuesta = "HTTP 405 METHOD NOT ALLOWED\n\n";
