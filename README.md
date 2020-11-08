@@ -67,6 +67,7 @@ En el mismo podemos observar:
 - El servidor contiene solamente 2 estructuras: el lector de parametros y el objeto Servidor, el cual es el encargado de almacenar toda la informacion y de procesar los petitorios.
 - La clase ServerHolder tiene modificado su operador (), aqui es donde se realiza toda la tarea del servidor: Lo que hace es lanzar el thread ThAceptador y se queda esperando el ingreso de un caracter para finalizar el programa. Si se ingresa una letra "q" entonces se procede a terminar el thread ThAceptador y se finaliza el programa.
 - La clase ThAceptador se encarga de crear los threads que van a resolver las consultas de los clientes (los ThPeer), finaliza la ejecucion de los que ya terminaron, limpia la memoria y finaliza las conexiones de los ThPeer una vez que por teclado se recibio una letra "q".
+- Se agregó un delay de medio segundo luego de que se presiona la letra "q" el cual fue puesto en el caso de que si el programa se abra y se cierre muy rápido, el thread ThAceptador quede en un estado no inicializado y pierda memoria al ser forzado su cierre.
 - Se explicará el funcionamiento de la clase ThPeer en la siguiente seccion.
 
 #### Diagrama de clases programa servidor: Manejo de petitorios
