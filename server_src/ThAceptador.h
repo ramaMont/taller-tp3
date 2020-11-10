@@ -17,7 +17,7 @@ private:
     std::atomic<bool> is_running;
     void cleanForsakens();
 public:
-    explicit ThAceptador(std::string port, Servidor &servidor);
+    explicit ThAceptador(const std::string& port, Servidor &servidor);
     virtual void run() override;
     virtual void stop() override;
     virtual bool isDone() override;

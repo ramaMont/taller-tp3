@@ -5,7 +5,7 @@
 #include <utility>
 #include <string>
 
-ThAceptador::ThAceptador(std::string port, Servidor &servidor):
+ThAceptador::ThAceptador(const std::string& port, Servidor &servidor):
     svSock(port),
     servidor(servidor),
     keep_talking(true),
