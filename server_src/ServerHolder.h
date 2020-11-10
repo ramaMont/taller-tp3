@@ -9,7 +9,6 @@ class ServerHolder{
 private:
     ParamReaderServer paramReaderServer;
     Servidor servidor;
-    Socket svSock;
     void run();
 public:
     explicit ServerHolder(int argc, char** argv);

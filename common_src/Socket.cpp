@@ -113,6 +113,7 @@ Socket::Socket(std::string port):Socket(){
     char* portChar = const_cast<char*>(port.c_str());
     hostOClientConf(&pr, localHost, portChar, SERVER);
     hostNBind(pr);
+    hostListening();
 }
 
 Socket::Socket(){

@@ -43,22 +43,21 @@ A continuacion se muestra el diagrama de clases simplificado correspondiente al 
 
 #### Diagrama de clases programa cliente
 
-![diagrama cliente](http://www.plantuml.com/plantuml/png/bT1Bwi8m40RmVKwHvVz1mIDK1D5TiISOqw64ffaoCtMXU7UdpKgwqLqU7xylcLeKMESnEHbYde1Xz261o5wLutLMF0VARRoZtxdrmXzInAmdIXsoVpZ_JnCoAF7Fhtj-pZHBw89WIX4NgxfXCCa3z_DePoJczwWDiHg_hArPzBkgbiA0nO_M8-lss1bdoOoXSCwz_UolghPlt4QAxMhCdKtn1G00)
+![diagrama cliente](http://www.plantuml.com/plantuml/png/bSzDwiCW40NmlQTm-VyWq2Ea54gw2yq9h1c2H9qmCsRHqhlNwAfaq-wU-FWzRLaCIGfUyUpYOiW4RRrXFegGkoM1YyKuk3leWoeN-kGTHEdGZq3weVG_Ba16a7v-rVDpfjzALp1PgU9cDIjOGTA6fXGW2dBs9v0UIJ9VSeSitqqDQ6UeliixN8xdCNEv6S5McY6EWr391DQjK5QKUllmNzFidxwlr4dLPZC5_m80)
 
 En el mismo podemos observar:
 
 - Durante la construccion del cliente se construyen tambien los objetos que componen dicha clase, para aprovechar los beneficios de RAII.
-- Durante la construccion del objeto Socket, se realiza la coneccion del mismo.
+- Durante la construccion del objeto Socket, se realiza la iteracion de la funcion getaddrrinfo y luego se procede a la conexion del mismo.
 - La clase ClientHolder tiene modificado su operador (), aqui es donde se realiza toda la tarea del cliente: Como ya tiene inicializado el objeto Socket, en esta funcion simplemente se envia el petitorio y se espera a su respuesta, una vez realizado esto, el programa termina.
 
 ### Servidor
 
-Para resolver el trabajo practico se creó la clase: `ServerHolder` la cual contiene a las clases comunes: 
-`Socket` y `ParamReaderServer`.
-Por otra parte tambien contiene a una clase solamente conocida por parte del servidor llamada `Servidor`.
+Para resolver el trabajo practico se creó la clase: `ServerHolder` la cual contiene a las clase común `ParamReaderServer` y
+por otra parte tambien contiene a una clase solamente conocida por parte del servidor llamada `Servidor`.
 A continuacion se muestra el diagrama de clases simplificado correspondiente al servidor:
 
-#### Diagrama de clases programa servidor generico
+#### Diagrama de clases programa servidor genérico
 
 ![diagrama servidor](http://www.plantuml.com/plantuml/png/bPB1Yjmm38RlVWgVIhibq7jBsQLbQA67ORBtnUk8Z8aZkP8yBIrzzpes0mbJwEOKMRA-Nx_YUr77ckTeP0gO7BlP-kX47bGvF6U5hvwm3x_0lZErO7lW2_0NYWEm_MtiMqh0JebVlp5_NeuvBfTEu0gb4HTMTm5VIDRnc6T09Idy4VH8h0LVuqE8i4-g9p-1Ldv0jLAFXw7WpYJwBOW21XohWFCUadwA0R0f2k3GAzUOmOVBNl5YBWpKxCqksGB9B2JBiJJyRAvEBLjb4idcd752-e4d-BvF-l7yi9Xn0wsN--7npE26kuys0R2yBuMse1AykavROX_1uO5Ot0GepN_6jXEbL8CWdmbXxrH7Q7_xtxhFHD5E0Eb9NIpGyPeByiGPiMJ-CuencpTwrtMth-tsodM4RQKhbTKUpIfkNSt2EjsjO3VtctlJFcj2osoRxm67FCU_)
 
@@ -66,8 +65,7 @@ En el mismo podemos observar:
 - Los objetos pertenecientes al servidor tambien se inicializan de forma RAII.
 - El servidor contiene solamente 2 estructuras: el lector de parametros y el objeto Servidor, el cual es el encargado de almacenar toda la informacion y de procesar los petitorios.
 - La clase ServerHolder tiene modificado su operador (), aqui es donde se realiza toda la tarea del servidor: Lo que hace es lanzar el thread ThAceptador y se queda esperando el ingreso de un caracter para finalizar el programa. Si se ingresa una letra "q" entonces se procede a terminar el thread ThAceptador y se finaliza el programa.
-- La clase ThAceptador se encarga de crear los threads que van a resolver las consultas de los clientes (los ThPeer), finaliza la ejecucion de los que ya terminaron, limpia la memoria y finaliza las conexiones de los ThPeer una vez que por teclado se recibio una letra "q".
-- Se agregó un delay de medio segundo luego de que se presiona la letra "q" el cual fue puesto en el caso de que si el programa se abra y se cierre muy rápido, el thread ThAceptador quede en un estado no inicializado y pierda memoria al ser forzado su cierre.
+- La clase ThAceptador se encarga de crear los threads que van a resolver las consultas de los clientes (los ThPeer), para ello inicializa al socket con el cual realiza el accept durante el constructor de la misma, además finaliza la ejecucion de los threads cliente que ya terminaron, limpia la memoria y finaliza las conexiones de los ThPeer una vez que por teclado se recibió la letra "q".
 - Se explicará el funcionamiento de la clase ThPeer en la siguiente seccion.
 
 #### Diagrama de clases programa servidor: Manejo de petitorios

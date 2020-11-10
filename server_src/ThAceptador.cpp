@@ -4,15 +4,14 @@
 #include <vector>
 #include <utility>
 
-ThAceptador::ThAceptador(Socket &&svSockParam, Servidor &servidor):
-    svSock(std::move(svSockParam)),
+ThAceptador::ThAceptador(std::string port, Servidor &servidor):
+    svSock(port),
     servidor(servidor),
     keep_talking(true),
     is_running(true){
 }
 
 void ThAceptador::run(){
-    svSock.hostListening();
     while (keep_talking){
         try{
             Socket peer = svSock.acceptClient();
