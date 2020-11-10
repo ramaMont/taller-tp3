@@ -6,6 +6,7 @@
 #include "Servidor.h"
 #include <atomic>
 #include <vector>
+#include <string>
 
 class ThAceptador final : public Thread{
 private:

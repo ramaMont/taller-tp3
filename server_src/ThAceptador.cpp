@@ -3,6 +3,7 @@
 #include "ThPeer.h"
 #include <vector>
 #include <utility>
+#include <string>
 
 ThAceptador::ThAceptador(std::string port, Servidor &servidor):
     svSock(port),
